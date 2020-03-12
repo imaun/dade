@@ -47,3 +47,5 @@ public class DbContext: DadeContext
 }
 ```
 
+## About
+`Dade` means Data in Farsi!
