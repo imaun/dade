@@ -9,7 +9,7 @@ First thing first, install it via NuGet :
 ```Install-Package imun.Dade```
 
  In your data-access layer project, create repository or `DataSet` for each of your entities. Suppose you have two entities `Blog` and `Post`. Add two class named `BlogSet` and `PostSet` which will inherits from `DadeSet` class.
-```
+```c#
 using imun.Dade;
 namespace Blog.Core.Data.Repositories
 {
@@ -21,7 +21,7 @@ namespace Blog.Core.Data.Repositories
     }
 }
 ```
-```
+```c#
 using imun.Dade;
 namespace Blog.Core.Data.Repositories
 {
@@ -35,7 +35,7 @@ namespace Blog.Core.Data.Repositories
 ```
 Well, that's it for repositories! Now add another class named `DbContext` or something like that to act as DbContext!
 
-```
+```c#
 public class DbContext: DadeContext
 {
     public DbContext(IUnitOfWorkFactory unitOfWorkFactory) : base(unitOfWorkFactory)
