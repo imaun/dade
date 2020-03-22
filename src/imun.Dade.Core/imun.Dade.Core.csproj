@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Iman Nemati</Authors>
+    <Company>imun</Company>
+    <Description>UnitOfWork &amp; Repository pattern over Dapper.</Description>
+    <Copyright>(c) 2020 imun</Copyright>
+    <PackageLicenseUrl>https://github.com/imaun/dade/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/imaun/dade</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/imaun/dade</RepositoryUrl>
+    <PackageTags>data orm dapper</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Dapper.Contrib" Version="2.0.30" />
+  </ItemGroup>
+
+</Project>
