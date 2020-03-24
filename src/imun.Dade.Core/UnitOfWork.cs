@@ -1,5 +1,7 @@
 using System;
 using System.Data;
+using Dapper;
+using Dapper.Contrib.Extensions;
 
 namespace imun.Dade.Core
 {
@@ -8,6 +10,10 @@ namespace imun.Dade.Core
         IDbTransaction Transaction { get; set; }
         void Commit();
         void Rollback();
+        void Execute(string sql, object param = null);
+        int ExecuteScalar32(string sql, object param = null);
+        long ExecuteScalar64(string sql, object param);
+
     }
 
     public class UnitOfWork : IUnitOfWork
@@ -17,6 +23,19 @@ namespace imun.Dade.Core
         public UnitOfWork(IDbConnection connection)
         {
             Transaction = connection.BeginTransaction();
+        }
+
+
+        public void Execute(string sql, object param = null) {
+            Transaction.Connection.Execute(sql, param);
+        }
+
+        public int ExecuteScalar32(string sql , object param = null) {
+            return Transaction.Connection.ExecuteScalar<int>(sql, param);
+        }
+
+        public long ExecuteScalar64(string sql, object param) {
+            return Transaction.Connection.ExecuteScalar<long>(sql, param);
         }
 
         public IDbTransaction Transaction { get; set; }

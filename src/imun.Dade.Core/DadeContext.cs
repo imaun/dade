@@ -6,6 +6,9 @@ namespace imun.Dade.Core
     {
         void Commit();
         void Rollback();
+        void Execute(string sql, object param = null);
+        int ExecuteScalar32(string sql, object param = null);
+        long ExecuteScalar64(string sql, object param = null);
     }
 
     public class DadeContext: IDadeContext
@@ -21,6 +24,20 @@ namespace imun.Dade.Core
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
+
+        public void Execute(string sql, object param = null) {
+            _unitOfWork.Execute(sql, param);
+        }
+
+        public int ExecuteScalar32(string sql, object param = null) {
+            return _unitOfWork.ExecuteScalar32(sql, param);
+        }
+
+        public long ExecuteScalar64(string sql, object param = null) {
+            return _unitOfWork.ExecuteScalar64(sql, param);
+        }
+
+
         public void Commit()
         {
             try
@@ -30,9 +47,6 @@ namespace imun.Dade.Core
             catch (Exception e)
             {
                 throw;
-            }
-            finally
-            {
             }
         }
 
@@ -45,10 +59,6 @@ namespace imun.Dade.Core
             catch (Exception e)
             {
                 throw;
-            }
-            finally
-            {
-
             }
         }
     }
