@@ -143,6 +143,22 @@ namespace imun.Dade.Core {
         /// <returns></returns>
         Task<T> SingleAsync(string query, object param = null);
 
+        /// <summary>
+        /// Determines if a query returns at least one records based on a condition.
+        /// </summary>
+        /// <param name="query">Sql query.</param>
+        /// <param name="param">Sql parameters listed in the query.</param>
+        /// <returns></returns>
+        bool Any(string query, object param);
+
+        /// <summary>
+        /// Determines if a query returns at least one records based on a condition asynchronously.
+        /// </summary>
+        /// <param name="query">Sql query.</param>
+        /// <param name="param">Sql parameters listed in the query.</param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(string query, object param);
+
     }
 
     public class DadeSet<T, TKey> : IDadeSet<T, TKey> where T : class {
@@ -152,7 +168,6 @@ namespace imun.Dade.Core {
         protected DadeSet(IDbTransaction transaction) {
             Transaction = transaction;
         }
-
 
         public T Get(TKey id) {
             return Connection.Get<T>(id);
@@ -233,6 +248,14 @@ namespace imun.Dade.Core {
 
         public async Task<T> SingleAsync(string query, object param = null) {
             return await Connection.QuerySingleAsync<T>(query, param);
+        }
+
+        public bool Any(string query, object param) {
+            return Connection.ExecuteScalar<int>(query) > 0;
+        }
+
+        public async Task<bool> AnyAsync(string query, object param) {
+            return await Connection.ExecuteScalarAsync<int>(query, param) > 0;
         }
     }
 }

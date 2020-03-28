@@ -24,17 +24,16 @@ namespace imun.Dade.Core
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-
         public void Execute(string sql, object param = null) {
-            _unitOfWork.Execute(sql, param);
+            UnitOfWork.Execute(sql, param);
         }
 
         public int ExecuteScalar32(string sql, object param = null) {
-            return _unitOfWork.ExecuteScalar32(sql, param);
+            return UnitOfWork.ExecuteScalar32(sql, param);
         }
 
         public long ExecuteScalar64(string sql, object param = null) {
-            return _unitOfWork.ExecuteScalar64(sql, param);
+            return UnitOfWork.ExecuteScalar64(sql, param);
         }
 
 
