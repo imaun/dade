@@ -1,12 +1,9 @@
 using System;
 using System.Data;
 using Dapper;
-using Dapper.Contrib.Extensions;
 
-namespace imun.Dade.Core
-{
-    public interface IUnitOfWork : IDisposable
-    {
+namespace imun.Dade.Core {
+    public interface IUnitOfWork : IDisposable {
         IDbTransaction Transaction { get; set; }
         void Commit();
         void Rollback();
@@ -16,12 +13,11 @@ namespace imun.Dade.Core
 
     }
 
-    public class UnitOfWork : IUnitOfWork
-    {
+    public class UnitOfWork : IUnitOfWork {
         private bool _disposed;
 
-        public UnitOfWork(IDbConnection connection)
-        {
+        public UnitOfWork(IDbConnection connection) {
+            connection.Open();
             Transaction = connection.BeginTransaction();
         }
 
@@ -39,64 +35,48 @@ namespace imun.Dade.Core
         }
 
         public IDbTransaction Transaction { get; set; }
-        public void Commit()
-        {
-            try
-            {
+        public void Commit() {
+            try {
                 Transaction.Commit();
-                Transaction.Connection?.Close();
             }
-            catch
-            {
+            catch(Exception ex) {
                 Transaction.Rollback();
-                throw;
+                throw ex;
             }
-            finally
-            {
-                Transaction?.Dispose();
-                Transaction.Connection?.Dispose();
-                Transaction = null;
+            finally {
+                Transaction.Connection?.Close();
+                //Transaction?.Dispose();
+                //Transaction.Connection?.Dispose();
             }
         }
 
-        public void Rollback()
-        {
-            try
-            {
+        public void Rollback() {
+            try {
                 Transaction.Rollback();
+            }
+            catch(Exception ex) {
+                throw ex;
+            }
+            finally {
                 Transaction.Connection?.Close();
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                Transaction?.Dispose();
-                Transaction.Connection?.Dispose();
-                Transaction = null;
+                //Transaction?.Dispose();
+                //Transaction.Connection?.Dispose();
             }
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {
             dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        ~UnitOfWork()
-        {
+        ~UnitOfWork() {
             dispose(false);
         }
 
-        private void dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    if (Transaction != null)
-                    {
+        private void dispose(bool disposing) {
+            if (!_disposed) {
+                if (disposing) {
+                    if (Transaction != null) {
                         Transaction.Dispose();
                         Transaction = null;
                     }

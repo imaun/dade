@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>imun.Dade.Core</id>
+    <version>0.1.2</version>
+    <title>UnitOfWork and Repository pattern over Dapper.</title>
+    <authors>Iman Nemati</authors>
+    <owners>imaun</owners>
+    <licenseUrl>https://github.com/imaun/dade/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/imaun/dade</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+        "Dade" is implementation of UnitOfWork and Repository pattern over Dapper mini-ORM.
+    </description>
+    <releaseNotes>Fix problems in UnitOfWork class.</releaseNotes>
+    <copyright>Copyright 2019-2020 imun</copyright>
+    <tags>orm data-access dapper data repository uow</tags>
+  </metadata>
+</package>

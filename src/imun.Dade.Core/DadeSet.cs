@@ -31,13 +31,13 @@ namespace imun.Dade.Core {
         /// Add entity to DataSet collection.
         /// </summary>
         /// <param name="entity">Entity to add.</param>
-        void Add(T entity);
+        long Add(T entity);
 
         /// <summary>
         /// Add entity to DataSet collection asynchronously.
         /// </summary>
         /// <param name="entity">Entity to add.</param>
-        Task AddAsync(T entity);
+        Task<int> AddAsync(T entity);
 
         /// <summary>
         /// Add a list of entities to DataSet collection.
@@ -159,6 +159,9 @@ namespace imun.Dade.Core {
         /// <returns></returns>
         Task<bool> AnyAsync(string query, object param);
 
+        void Execute(string query, object param);
+
+        Task ExecuteAsync(string query, object param);
     }
 
     public class DadeSet<T, TKey> : IDadeSet<T, TKey> where T : class {
@@ -169,93 +172,101 @@ namespace imun.Dade.Core {
             Transaction = transaction;
         }
 
-        public T Get(TKey id) {
+        public virtual T Get(TKey id) {
             return Connection.Get<T>(id);
         }
 
-        public void Add(T entity) {
-            Connection.Insert(entity, Transaction);
+        public virtual long Add(T entity) {
+            return Connection.Insert(entity, Transaction);
         }
 
-        public void Add(IEnumerable<T> entities) {
+        public virtual void Add(IEnumerable<T> entities) {
             Connection.Insert(entities, Transaction);
         }
 
-        public void Update(T entity) {
+        public virtual void Update(T entity) {
             Connection.Update(entity, Transaction);
         }
 
-        public void Update(IEnumerable<T> entities) {
+        public virtual void Update(IEnumerable<T> entities) {
             Connection.Update(entities, Transaction);
         }
 
-        public void Delete(T entity) {
+        public virtual void Delete(T entity) {
             Connection.Delete<T>(entity, Transaction);
         }
 
-        public void Delete(IEnumerable<T> entities) {
+        public virtual void Delete(IEnumerable<T> entities) {
             Connection.Delete(entities, Transaction);
         }
 
 
-        public IEnumerable<T> GetAll() {
+        public virtual IEnumerable<T> GetAll() {
             return Connection.GetAll<T>();
         }
 
-        public IEnumerable<T> Query(string query, object param = null) {
+        public virtual IEnumerable<T> Query(string query, object param = null) {
             return Connection.Query<T>(query, param, Transaction);
         }
 
-        public T Single(string query, object param = null) {
+        public virtual T Single(string query, object param = null) {
             return Connection.QuerySingle<T>(query, param);
         }
 
-        public async Task<T> GetAsync(TKey id) {
+        public virtual async Task<T> GetAsync(TKey id) {
             return await Connection.GetAsync<T>(id);
         }
 
-        public async Task AddAsync(T entity) {
-            await Connection.InsertAsync(entity, Transaction);
+        public virtual async Task<int> AddAsync(T entity) {
+            return await Connection.InsertAsync(entity, Transaction);
         }
 
-        public async Task AddAsync(IEnumerable<T> entities) {
+        public virtual async Task AddAsync(IEnumerable<T> entities) {
             await Connection.InsertAsync(entities, Transaction);
         }
 
-        public async Task UpdateAsync(T entity) {
+        public virtual async Task UpdateAsync(T entity) {
             await Connection.UpdateAsync(entity, Transaction);
         }
 
-        public async Task UpdateAsync(IEnumerable<T> entities) {
+        public virtual async Task UpdateAsync(IEnumerable<T> entities) {
             await Connection.UpdateAsync(entities, Transaction);
         }
 
-        public async Task DeleteAsync(T entity) {
+        public virtual async Task DeleteAsync(T entity) {
             await Connection.DeleteAsync(entity);
         }
 
-        public async Task DeleteAsync(IEnumerable<T> entities) {
+        public virtual async Task DeleteAsync(IEnumerable<T> entities) {
             await Connection.DeleteAsync(entities, Transaction);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync() {
+        public virtual async Task<IEnumerable<T>> GetAllAsync() {
             return await Connection.GetAllAsync<T>();
         }
 
-        public async Task<IEnumerable<T>> QueryAsync(string query, object param = null) {
+        public virtual async Task<IEnumerable<T>> QueryAsync(string query, object param = null) {
             return await Connection.QueryAsync<T>(query, param);
         }
 
-        public async Task<T> SingleAsync(string query, object param = null) {
+        public virtual async Task<T> SingleAsync(string query, object param = null) {
             return await Connection.QuerySingleAsync<T>(query, param);
         }
 
-        public bool Any(string query, object param) {
+        public virtual bool Any(string query, object param) {
             return Connection.ExecuteScalar<int>(query) > 0;
         }
 
-        public async Task<bool> AnyAsync(string query, object param) {
+        public virtual async Task<bool> AnyAsync(string query, object param) {
             return await Connection.ExecuteScalarAsync<int>(query, param) > 0;
+        }
+
+        public void Execute(string query, object param) {
+            Connection.Execute(query, param);
+        }
+
+        public async Task ExecuteAsync(string query, object param) {
+            await Connection.ExecuteAsync(query, param);
         }
     }
 }
