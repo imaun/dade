@@ -15,7 +15,7 @@ namespace Blog.Core.Data.Repositories
 {
     public class BlogSet: DadeSet<Blog, int>
     {
-        protected PersonSet(IDbTransaction transaction) : base(transaction)
+        protected BlogSet(IDbTransaction transaction) : base(transaction)
         {
         }
     }
@@ -27,7 +27,7 @@ namespace Blog.Core.Data.Repositories
 {
     public class PostSet: DadeSet<Post, int>
     {
-        protected PersonSet(IDbTransaction transaction) : base(transaction)
+        protected PostSet(IDbTransaction transaction) : base(transaction)
         {
         }
     }
